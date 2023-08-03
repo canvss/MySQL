@@ -1,12 +1,3 @@
-### 子查询
-
-子查询指一个查询语句嵌套在另一个查询语句内部的查询，这个特性从MySQL4.1开始引入。
-
-SQL中子查询的使用大大增强了SELECT查询的能力，因为很多时候查询需要从结果中获取数据，或者需要从同一个表中先计算得出一个数据结果，然后于这个数据结果（可能是某个标量，也可能是某个集合）进行比较
-
-#### 实际问题
-
-```SQL
 #方式1 
 SELECT e.salary
 FROM employees e
@@ -22,28 +13,11 @@ FROM employees e1, employees e2
 WHERE e1.salary < e2.salary AND e1.last_name = "Abel";
 
 #子查询
-SELECT e.last_name,e.salary
-FROM employees e 
-WHERE e.salary > (SELECT e.salary FROM employees e WHERE e.last_name = "Abel");
-```
+SELECT e.last_name,
+WHERE e.salary > (Se.salary
+FROM employees e ELECT e.salary FROM employees e WHERE e.last_name = "Abel");
 
-#### 子查询的基本使用
 
-- 子查询的基本语法结构
-- 子查询（内查询）在主查询之前一次执行完成
-- 注意事项
-  - 子查询要包含在括号内
-  - 将子查询放在比较条件的右侧
-  - 单行操作符对应单行子查询，多行操作符对应多行子查询
-
-#### 子查询的分类
-
-- 单行子查询
-- 多行子查询
-
-#### 单行子查询
-
-```sql
 #查询工资大于149号员工工资的员工的信息
 SELECT e1.last_name,e1.salary
 FROM employees e1,employees e2 
@@ -93,20 +67,9 @@ HAVING MIN(salary) > (
 		FROM employees
 		WHERE department_id = 50
 );
-```
 
-#### 多行子查询
 
-多行比较操作符
 
-| 操作符 | 含义                                                     |
-| ------ | -------------------------------------------------------- |
-| IN     | 等于列表中的任意一个                                     |
-| ANY    | 需要和单行比较糙字符一起使用，和子查询返回的某一个值比较 |
-| ALL    | 需要和单行比较符一起使用，和子查询返回的所有值比较       |
-| SOME   | 实际上是ANY的别名，作用相同，一般常使用ANY               |
-
-```sql
 #返回其它job_id中比job_id为‘IT_PROG’部门任一工资低的员工的员工号、姓名、job_id 以及salary
 SELECT employee_id,last_name,job_id,salary
 FROM employees
@@ -127,11 +90,11 @@ HAVING AVG(salary) = (
 	SELECT MIN(avg_salary) FROM (SELECT AVG(salary) AS avg_salary FROM employees GROUP BY department_id) avg_sal
 );
 
+
 SELECT department_id
 FROM employees
 GROUP BY department_id
 HAVING AVG(salary) <= ALL(
 	SELECT AVG(salary) FROM employees GROUP BY department_id
 )
-```
 
